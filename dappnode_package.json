@@ -1,0 +1,25 @@
+{
+  "name": "frens.avado.dappnode.eth",
+  "version": "0.0.1",
+  "title": "Frens - Stake with Friends",
+  "description": "Spin up your own pool in one click. Create your non-custodial staking pool for you and your friends.",
+  "autoupdate": true,
+  "type": "service",
+  "avatar": "/ipfs/QmdUGbFVc4hbxuttFQTZ8Xve6BLWArQ6ikCPyEd5TzjVWd",
+  "author": "sp",
+  "image": {
+    "volumes": [
+      "data:/data"
+    ],
+    "ports": [
+      "80:80"
+    ],
+    "environment": [
+      "EXTRA_OPTS="
+    ]
+  },
+  "links": {
+    "OnboardingWizard": "http://frens.my.ava.do"
+  },
+  "license": "GLP-3.0"
+}
