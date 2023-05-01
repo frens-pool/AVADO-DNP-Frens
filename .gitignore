@@ -2,3 +2,4 @@
 build_*
 releases.json
 build/monitor/node_modules
+build/monitor_
