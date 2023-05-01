@@ -1,5 +1,6 @@
 import { useContractEvent, useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { server_config } from "../server_config";
 
 import { useCreatePool } from "../hooks/useCreatePool";
 import { FrensContracts } from "../utils/contracts";
@@ -15,8 +16,29 @@ export const PoolComponent = ({}: {}) => {
     // const INVITATION_TOKEN_LENGTH = 9
     // const inviteToken = Math.random().toString(36).substring(2, INVITATION_TOKEN_LENGTH);
     // setTokenCode(inviteToken);
+    setPoolName("dummyPool123");
     if (createPool) createPool();
   }
+
+  const setPoolName = (poolName: string) => {
+    const api_url: string = `${server_config.monitor_url}/setPoolName`;
+
+    const data = {
+      poolName: poolName,
+    };
+
+    fetch(api_url, {
+      method: "POST",
+      headers: { "content-type": "application/json;charset=UTF-8" },
+      body: JSON.stringify(data),
+    })
+      .then(async (r) => {
+        const result = await r.text();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   useContractEvent({
     address: "0x5dC7D3A7B8216a65e9b65B1941E774248c1Ee8Ab", // temp
