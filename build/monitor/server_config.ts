@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-const localdev = false;
+const localdev = process.env.LOCALDEV || false;
 
 const network = () => {
     var env_network = process.env.NETWORK ?? "goerli" // use goerli by default
@@ -10,10 +10,10 @@ const network = () => {
 
 export const server_config = {
     network: network(),
-    name: "stader",
+    name: "frens",
     https_options: localdev ? {} : {
         key: readFileSync('/etc/nginx/my.ava.do.key'),
         certificate: readFileSync('/etc/nginx/my.ava.do.crt')
     },
-    packageName: "stader.avado.dappnode.eth"
+    packageName: "frens.avado.dappnode.eth"
 }
