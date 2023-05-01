@@ -1,10 +1,10 @@
 FROM node:18.15.0 as builder
 
-# # build wizard
-# WORKDIR /usr/src/app/wizard
-# COPY wizard .
-# RUN yarn --frozen-lockfile
-# RUN rm -Rf build && yarn run build
+# build wizard
+WORKDIR /usr/src/app/wizard
+COPY wizard .
+RUN yarn --frozen-lockfile
+RUN rm -Rf build && yarn run build
 
 # Monitor
 WORKDIR /usr/src/monitor
@@ -39,7 +39,7 @@ RUN apt-get -y clean && apt-get -y update && apt-get -y upgrade && apt-get -y in
 RUN useradd -s /bin/false nginx
 
 # copy wizard & monitor
-#COPY --from=builder /usr/src/app/wizard/out /usr/local/wizard
+COPY --from=builder /usr/src/app/wizard/out /usr/local/wizard
 COPY --from=builder /usr/src/monitor/ /usr/local/monitor
 
 RUN mkdir -p /usr/src/app/scripts
