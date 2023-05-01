@@ -1,14 +1,20 @@
+FROM node:18.15.0 as builder
 
-FROM --platform=linux/amd64  node:16.14.0 as build-deps-wizard
-
-# build wizard
-WORKDIR /usr/src/app/wizard
+# # build wizard
+# WORKDIR /usr/src/app/wizard
 # COPY wizard .
-COPY wizard/out/index.html build/index.html
-# RUN yarn
+# RUN yarn --frozen-lockfile
 # RUN rm -Rf build && yarn run build
 
+# Monitor
+WORKDIR /usr/src/monitor
+COPY monitor .
+RUN yarn --frozen-lockfile
+RUN rm -Rf build && yarn run build
+RUN rm -Rf node_modules
+RUN yarn --production
 
+# Deposit CLI
 WORKDIR /app
 RUN wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.5.0/staking_deposit-cli-d7b5304-linux-amd64.tar.gz
 RUN tar zxvf *.tar.gz
@@ -17,23 +23,24 @@ RUN rm *.tar.gz
 RUN mv */deposit ./
 RUN ls -l
 
-# build final image
-FROM --platform=linux/amd64 debian:stable-20230411-slim
 
-WORKDIR /usr/src/app
+####### Main image
 
-USER root
+FROM --platform=linux/amd64 node:18.15.0
 
-# RUN apk add --no-cache libressl ca-certificates supervisor expect wget nginx nodejs npm
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
-RUN apt-get install -y supervisor expect wget nginx nodejs npm
-# nginx nodejs npm
-# RUN rm -rf glibc.apk glibc-bin.apk /var/cache/apk/*
-RUN rm -rf /var/lib/apt/lists/*
+RUN apt-get -y clean && apt-get -y update && apt-get -y upgrade && apt-get -y install \
+    gettext\
+    jq \
+    nginx \
+    sudo \
+    supervisor \
+    vim-tiny \
+    && rm -rf /var/lib/apt/lists/*
+RUN useradd -s /bin/false nginx
 
-COPY --from=build-deps-wizard /app/deposit /usr/bin/deposit
-RUN chmod +x /usr/bin/deposit
+# copy wizard & monitor
+#COPY --from=builder /usr/src/app/wizard/out /usr/local/wizard
+COPY --from=builder /usr/src/monitor/ /usr/local/monitor
 
 RUN mkdir -p /usr/src/app/scripts
 COPY files/mkkeys.sh /usr/src/app/scripts
@@ -41,18 +48,11 @@ RUN chmod +x /usr/src/app/scripts/mkkeys.sh
 COPY files/mkkeys_mnemonic.sh /usr/src/app/scripts
 RUN chmod +x /usr/src/app/scripts/mkkeys_mnemonic.sh
 
-# Wizard
-COPY --from=build-deps-wizard /usr/src/app/wizard/build /usr/local/wizard
+RUN curl "https://iso.ava.do/my.ava.do.crt" --output /etc/nginx/my.ava.do.crt --silent
+RUN curl "https://iso.ava.do/my.ava.do.key" --output /etc/nginx/my.ava.do.key --silent
 
-# Monitor
-WORKDIR /usr/src/monitor
-COPY monitor .
-#COPY --from=build-deps-wizard /usr/src/app/monitor /usr/src/monitor
-WORKDIR /usr/src/monitor
-RUN npm i 
-
-COPY files/supervisord.conf /etc/supervisord/
+COPY files/supervisord.conf /etc/supervisord.conf
 COPY files/nginx.conf /etc/nginx/
 
-
-ENTRYPOINT supervisord -n -c /etc/supervisord/supervisord.conf
+WORKDIR /
+ENTRYPOINT ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
