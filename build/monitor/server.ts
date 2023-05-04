@@ -61,6 +61,7 @@ const main = async () => {
     });
 
     require("./routes/pool")(server);
+    require("./routes/member")(server);
 
     server.get("/network", (req: Request, res: Response, next: NextFunction) => {
         res.send(server_config.network);
