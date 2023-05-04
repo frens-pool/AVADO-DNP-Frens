@@ -1,5 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-// import { db } from "../db";
+import { db } from "../db";
 module.exports = (server: Express) => {
     /**
      * @openapi
@@ -12,18 +12,16 @@ module.exports = (server: Express) => {
      */
     server.get("/pools", async (req: Request, res: Response, next: NextFunction) => {
         // await db.read();
-        // res.send(await db.data.pools || []);
-        res.send([]);
+        const p = await db.get("pools")
+        res.send(p);
         next()
     });
 
     server.post("/pool", async (req: Request, res: Response, next: NextFunction) => {
-        const {poolName,poolAddress} = req.body
+        const { poolName, poolAddress } = req.body
         console.log(`Pool name=${poolName}`);
         console.log(`poolAddress=${poolAddress}`);
-        //request var
-        // - pool contract address
-        // - name 
+        await db.push("pools", { poolName, poolAddress });
         next()
     });
 
