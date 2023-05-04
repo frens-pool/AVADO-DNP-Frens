@@ -29,10 +29,11 @@ export const CreatePool = ({
   }
 
   const setPoolName = (poolName: string) => {
-    const api_url: string = `${server_config.monitor_url}/setPoolName`;
+    const api_url: string = `${server_config.monitor_url}/pool`;
 
     const data = {
       poolName: poolName,
+      poolAddress: "0x123"
     };
 
     fetch(api_url, {

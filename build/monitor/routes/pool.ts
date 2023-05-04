@@ -18,6 +18,9 @@ module.exports = (server: Express) => {
     });
 
     server.post("/pool", async (req: Request, res: Response, next: NextFunction) => {
+        const {poolName,poolAddress} = req.body
+        console.log(`Pool name=${poolName}`);
+        console.log(`poolAddress=${poolAddress}`);
         //request var
         // - pool contract address
         // - name 
