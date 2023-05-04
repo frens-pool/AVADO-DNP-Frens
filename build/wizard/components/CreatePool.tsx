@@ -24,16 +24,15 @@ export const CreatePool = ({
     // const INVITATION_TOKEN_LENGTH = 9
     // const inviteToken = Math.random().toString(36).substring(2, INVITATION_TOKEN_LENGTH);
     // setTokenCode(inviteToken);
-    setPoolName("dummyPool123");
     if (createPool) createPool();
   }
 
-  const setPoolName = (poolName: string) => {
+  const postPoolToMonitor = (poolAddress: any, poolName: any) => {
     const api_url: string = `${server_config.monitor_url}/pool`;
 
     const data = {
+      poolAddress: poolAddress,
       poolName: poolName,
-      poolAddress: "0x123"
     };
 
     fetch(api_url, {
@@ -54,7 +53,7 @@ export const CreatePool = ({
     abi: FrensContracts.StakingPoolFactory.abi,
     eventName: "Create",
     listener: (node) => {
-      console.log(node);
+      postPoolToMonitor(node, "dummyName");
       setPoolContract(node);
       setStep(2);
     },
