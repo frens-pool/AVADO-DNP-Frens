@@ -18,8 +18,9 @@ module.exports = (server: Express) => {
     });
 
     server.post("/pool", async (req: Request, res: Response, next: NextFunction) => {
-        // await db.read();
-        // res.send(await db.data.pools || []);
+        //request var
+        // - pool contract address
+        // - name 
         next()
     });
 
