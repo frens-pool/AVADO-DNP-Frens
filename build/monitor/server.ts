@@ -36,7 +36,7 @@ const main = async () => {
                 version: '1.0.0',
             },
         },
-        apis: ['./routes/pool.ts'], // files containing annotations as above
+        apis: ['./routes/*.ts'], // files containing annotations as above
     };
 
     const openapiSpecification = swaggerJsdoc(options);
