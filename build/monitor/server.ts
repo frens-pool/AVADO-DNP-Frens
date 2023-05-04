@@ -9,7 +9,7 @@ import AdmZip from 'adm-zip';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-import express from 'express';
+import express, {Request,Response,NextFunction} from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
@@ -62,10 +62,10 @@ const main = async () => {
 
     require("./routes/pool")(server);
 
-    // server.get("/network", (req: Request, res: Response, next: NextFunction) => {
-    //     res.send(200, server_config.network);
-    //     next()
-    // });
+    server.get("/network", (req: Request, res: Response, next: NextFunction) => {
+        res.send(server_config.network);
+        next()
+    });
 
     // server.get("/name", (req: Request, res: Response, next: NextFunction) => {
     //     res.send(200, server_config.name);
@@ -160,24 +160,24 @@ const main = async () => {
         return installed_clients;
     }
 
-    // server.get("/bc-clients", async (req: Request, res: Response, next: NextFunction) => {
-    //     res.send(200, await getInstalledClients())
-    //     next();
-    // })
+    server.get("/bc-clients", async (req: Request, res: Response, next: NextFunction) => {
+        res.send(await getInstalledClients())
+        next();
+    })
 
-    // server.get("/ec-clients", async (req: Request, res: Response, next: NextFunction) => {
-    //     const dappManagerHelper = new DappManagerHelper(server_config.packageName, wampSession);
-    //     const packages = await dappManagerHelper.getPackages();
+    server.get("/ec-clients", async (req: Request, res: Response, next: NextFunction) => {
+        const dappManagerHelper = new DappManagerHelper(server_config.packageName, wampSession);
+        const packages = await dappManagerHelper.getPackages();
 
-    //     const installed_clients = supported_execution_clients.filter(client => packages.includes(getAvadoExecutionClientPackageName(client)));
+        const installed_clients = supported_execution_clients.filter(client => packages.includes(getAvadoExecutionClientPackageName(client)));
 
-    //     res.send(200, installed_clients.map(client => ({
-    //         name: client,
-    //         api: rest_url(client),
-    //         url: `http://${client_url(client)}`
-    //     })))
-    //     next();
-    // })
+        res.send(installed_clients.map(client => ({
+            name: client,
+            api: rest_url(client),
+            url: `http://${client_url(client)}`
+        })))
+        next();
+    })
 
     // server.post("/stader-api", (req, res, next) => {
     //     if (!req.body) {
@@ -319,31 +319,33 @@ const main = async () => {
     //     }
     // });
 
-    // server.get("/runningValidatorInfos", async (req: Request, res: Response, next: NextFunction) => {
-    //     const clients = (await getInstalledClients())
-    //     if (clients.length == 0 || clients[0].name !== "teku") {
-    //         res.send(500, "Missing or unsupported Beacon chain client");
-    //         return next()
-    //     }
+    server.get("/runningValidatorInfos", async (req: Request, res: Response, next: NextFunction) => {
+        const clients = (await getInstalledClients())
+        if (clients.length == 0 || clients[0].name !== "teku") {
+            res.status(500);
+            res.send("Missing or unsupported Beacon chain client");
+            return next()
+        }
 
-    //     const keymanagerUrl = `http://teku-prater.my.ava.do:9999/keymanager`
-    //     const fetchFromKeyManager = async (path: string): Promise<any[]> => JSON.parse(await (await fetch(`${keymanagerUrl}${path}`)).text()).data
-    //     const restApiUrl = `http://teku-prater.my.ava.do:9999/rest`
-    //     const fetchFromRestAPi = async (path: string): Promise<any[]> => JSON.parse(await (await fetch(`${restApiUrl}${path}`)).text()).data
+        const keymanagerUrl = `http://teku-prater.my.ava.do:9999/keymanager`
+        const fetchFromKeyManager = async (path: string): Promise<any[]> => JSON.parse(await (await fetch(`${keymanagerUrl}${path}`)).text()).data
+        const restApiUrl = `http://teku-prater.my.ava.do:9999/rest`
+        const fetchFromRestAPi = async (path: string): Promise<any[]> => JSON.parse(await (await fetch(`${restApiUrl}${path}`)).text()).data
 
-    //     const validators = (await fetchFromKeyManager("/eth/v1/keystores")).map((v: any) => v.validating_pubkey)
-    //     const getValidatorData = async (pubKey: string) => await fetchFromRestAPi(`/eth/v1/beacon/states/head/validators/${pubKey}`)
-    //     const getFeeRecipient = async (pubKey: string) => await fetchFromKeyManager(`/eth/v1/validator/${pubKey}/feerecipient`)
+        const validators = (await fetchFromKeyManager("/eth/v1/keystores")).map((v: any) => v.validating_pubkey)
+        const getValidatorData = async (pubKey: string) => await fetchFromRestAPi(`/eth/v1/beacon/states/head/validators/${pubKey}`)
+        const getFeeRecipient = async (pubKey: string) => await fetchFromKeyManager(`/eth/v1/validator/${pubKey}/feerecipient`)
 
-    //     const result = await Promise.all(validators.map(async (pubkey: string) => {
-    //         const data = await getValidatorData(pubkey)
-    //         const recipient = await getFeeRecipient(pubkey)
-    //         return { pubkey: pubkey, data: data, recipient: recipient }
-    //     }))
+        const result = await Promise.all(validators.map(async (pubkey: string) => {
+            const data = await getValidatorData(pubkey)
+            const recipient = await getFeeRecipient(pubkey)
+            return { pubkey: pubkey, data: data, recipient: recipient }
+        }))
 
-    //     res.send(200, result);
-    //     next()
-    // });
+        res.status(200);
+        res.send(result);
+        next()
+    });
 
     // // get keyStoreFile
     // const getValidatorKeystore = (pubkey: string) => {
