@@ -1,15 +1,17 @@
-import type { NextPage } from 'next';
-import NodeComponent from '../components/NodeComponent';
-import Validators from '../components/Validators';
+import type { NextPage } from "next";
+import NodeComponent from "../components/NodeComponent";
+import Validators from "../components/Validators";
+import { PoolComponent } from "../components/PoolComponent";
 
 const Home: NextPage = () => {
-    return (
-        <>
-            <NodeComponent />
-            <hr />
-            <Validators />
-        </>
-    )
-}
+  return (
+    <>
+      <PoolComponent />
+      <NodeComponent />
+      <hr />
+      <Validators />
+    </>
+  );
+};
 
 export default Home;
