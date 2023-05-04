@@ -85,6 +85,7 @@ module.exports = (server: Express) => {
         const { nickName, email, poolId } = req.body;
         const memberId = uuidv4();
         await db.push("members", { memberId, nickName, email, poolId, status: "invited" });
+        res.send({ memberId });
         next()
     });
 
