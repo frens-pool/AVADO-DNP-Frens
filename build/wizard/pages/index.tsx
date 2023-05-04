@@ -7,9 +7,9 @@ const Home: NextPage = () => {
   return (
     <>
       <PoolComponent />
-      <NodeComponent />
+      {/* <NodeComponent /> */}
       <hr />
-      <Validators />
+      {/* <Validators /> */}
     </>
   );
 };
