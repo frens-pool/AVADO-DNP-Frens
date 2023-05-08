@@ -1,26 +1,46 @@
 import { useContractEvent, useAccount } from "wagmi";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { server_config } from "../server_config";
 
 import { useCreatePool } from "../hooks/useCreatePool";
 import { FrensContracts } from "../utils/contracts";
 
+interface Props {
+  setStep: any;
+  setPoolContract: any;
+  setTokenCode: any;
+}
+
+type Inputs = {
+  poolName: string;
+  commission: string;
+};
+
 export const CreatePool = ({
   setStep,
   setPoolContract,
   setTokenCode,
-}: {
-  setStep: any;
-  setPoolContract: any;
-  setTokenCode: any;
-}) => {
+}: Props) => {
   const { address: accountAddress } = useAccount();
   const { openConnectModal } = useConnectModal();
 
   const { data, isLoading, write: createPool } = useCreatePool();
   let etherscanLink = "";
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    onCreatePool();
+  };
+
   function onCreatePool(): void {
+    console.log("I am here");
     postPoolToMonitor("0xABC", "dummyName");
 
     if (createPool) createPool();
@@ -107,38 +127,72 @@ export const CreatePool = ({
 
   return (
     <div>
-      <div className="my-2">
-        You will get a link to your own personal staking pool
-      </div>
-      <div className="flex items-center justify-center mt-4 mb-2">
-        <div>
-          {isLoading ? (
-            <button disabled className="btn text-black">
-              Loading ...
-            </button>
-          ) : (
-            <div>
-              {accountAddress ? (
-                <button
-                  className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={() => onCreatePool()}
-                >
-                  Create Pool
-                </button>
-              ) : (
-                <button
-                  className="rounded-md py-2 px-3 text-white bg-teal-200 bg-gradient-to-r from-frens-blue to-frens-teal"
-                  onClick={() => {
-                    if (openConnectModal) openConnectModal();
-                  }}
-                >
-                  Create Pool
-                </button>
-              )}
-            </div>
-          )}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="relative mt-4">
+          <label
+            htmlFor="name"
+            className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+          >
+            Pool Name
+          </label>
+          <input
+            defaultValue="test"
+            {...register("poolName")}
+            type="text"
+            name="name"
+            id="name"
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Vitaliks pool"
+          />
         </div>
-      </div>
+        <div className="relative mt-4">
+          <label
+            htmlFor="name"
+            className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+          >
+            Commission Rate
+          </label>
+          <input
+            defaultValue="0"
+            {...register("commission")}
+            type="string"
+            name="name"
+            id="name"
+            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="0%"
+          />
+        </div>
+
+        <div className="flex items-center justify-center mt-4 mb-2">
+          <div>
+            {isLoading ? (
+              <button disabled className="btn text-black">
+                Loading ...
+              </button>
+            ) : (
+              <div>
+                {accountAddress ? (
+                  <button
+                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={() => handleSubmit(onSubmit)}
+                  >
+                    Create Pool
+                  </button>
+                ) : (
+                  <button
+                    className="rounded-md py-2 px-3 text-white bg-teal-200 bg-gradient-to-r from-frens-blue to-frens-teal"
+                    onClick={() => {
+                      if (openConnectModal) openConnectModal();
+                    }}
+                  >
+                    Create Pool
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
