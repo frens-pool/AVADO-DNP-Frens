@@ -1,6 +1,11 @@
 import { Fragment } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 const user = {
   name: "Tom Cook",
@@ -9,11 +14,11 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Create Pool", href: "/create", current: false },
-  { name: "Resources", href: "#", current: false },
-  { name: "Company Directory", href: "#", current: false },
-  { name: "Openings", href: "#", current: false },
+  { name: "Dashboard", href: "/", current: true },
+  { name: "Pools", href: "/create", current: false },
+  { name: "Validators", href: "#", current: false },
+  { name: "NFTs", href: "#", current: false },
+  { name: "Frens", href: "#", current: false },
 ];
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -26,45 +31,56 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
+  const { address: accountAddress } = useAccount();
+  const { openConnectModal } = useConnectModal();
+
   return (
-    <Popover as="header" className="bg-indigo-600 pb-24">
+    <Popover as="header" className="bg-frens-main pb-24">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div className="relative flex items-center justify-center py-5 lg:justify-between">
               {/* Logo */}
               <div className="absolute left-0 flex-shrink-0 lg:static">
-                <a href="#">
-                  <span className="sr-only">Your Company</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=300"
-                    alt="Your Company"
-                  />
-                </a>
+                <Link
+                  href="/"
+                  className="btn btn-ghost normal-case text-3xl text-white"
+                >
+                  <a className="flex items-left">
+                    <Image
+                      src="/FRENS_logo.svg"
+                      alt="FRENS pool"
+                      width="48"
+                      height="48"
+                    />
+                    <Image
+                      src="/FRENS_writing.png"
+                      alt="FRENS pool"
+                      width="120"
+                      height="32"
+                    />
+                  </a>
+                </Link>
               </div>
 
               {/* Right section on desktop */}
               <div className="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
-                <button
-                  type="button"
-                  className="flex-shrink-0 rounded-full p-1 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-4 flex-shrink-0">
                   <div>
-                    <Menu.Button className="flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src={user.imageUrl}
-                        alt=""
-                      />
-                    </Menu.Button>
+                    {/* {accountAddress ? (
+                      <ConnectButton />
+                    ) : (
+                      <button
+                        className="rounded-md py-2 px-3 text-black bg-white "
+                        onClick={() => {
+                          if (openConnectModal) openConnectModal();
+                        }}
+                      >
+                        Connect Wallet
+                      </button>
+                    )} */}
+                    <ConnectButton />
                   </div>
                   <Transition
                     as={Fragment}

@@ -9,7 +9,13 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "frens-main": "#4554EA",
+        "frens-blue": "#3F19EE",
+        "frens-teal": "#54DAE0",
+      },
+    },
   },
   plugins: [require("@tailwindcss/forms")],
 };

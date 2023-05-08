@@ -1,5 +1,7 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import NavBar from "./NavBar";
+import { NewPool } from "../components/NewPool";
+import { Stats } from "./Stats";
 
 interface Props {
   children: ReactNode;
@@ -35,8 +37,8 @@ const Layout = ({ children }: Props) => {
                     <h2 className="sr-only" id="section-2-title">
                       Section title
                     </h2>
-                    <div className="overflow-hidden rounded-lg bg-white shadow">
-                      <div className="p-6">Page agnostic stats</div>
+                    <div className="overflow-hidden rounded-lg bg-white shadow pt-8">
+                      <Stats />
                     </div>
                   </section>
                 </div>
