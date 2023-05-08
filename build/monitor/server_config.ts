@@ -15,5 +15,6 @@ export const server_config = {
         key: readFileSync('/etc/nginx/my.ava.do.key'),
         certificate: readFileSync('/etc/nginx/my.ava.do.crt')
     },
-    packageName: "frens.avado.dappnode.eth"
+    packageName: "frens.avado.dappnode.eth",
+    dbLocation: localdev ? "." : "/data"
 }
