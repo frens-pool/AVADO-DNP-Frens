@@ -15,7 +15,7 @@ const user = {
 };
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
-  { name: "Pools", href: "/create", current: false },
+  { name: "Public Pools", href: "/create", current: false },
   { name: "Validators", href: "#", current: false },
   { name: "NFTs", href: "#", current: false },
   { name: "Frens", href: "#", current: false },
