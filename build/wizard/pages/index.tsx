@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { NewPool } from "../components/NewPool";
 
 const Home: NextPage = () => {
   return (
@@ -35,6 +36,7 @@ const Home: NextPage = () => {
           </button>
         </div>
       </div>
+      <NewPool />
       <div>Public Pools:</div>
     </div>
   );
