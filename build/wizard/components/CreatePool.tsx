@@ -5,15 +5,17 @@ import { server_config } from "../server_config";
 import { useCreatePool } from "../hooks/useCreatePool";
 import { FrensContracts } from "../utils/contracts";
 
+interface Props {
+  setStep: any;
+  setPoolContract: any;
+  setTokenCode: any;
+}
+
 export const CreatePool = ({
   setStep,
   setPoolContract,
   setTokenCode,
-}: {
-  setStep: any;
-  setPoolContract: any;
-  setTokenCode: any;
-}) => {
+}: Props) => {
   const { address: accountAddress } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -21,9 +23,10 @@ export const CreatePool = ({
   let etherscanLink = "";
 
   function onCreatePool(): void {
+    console.log("I am here");
     postPoolToMonitor("0xABC", "dummyName");
 
-    if (createPool) createPool();
+    // if (createPool) createPool();
   }
 
   const postPoolToMonitor = (poolAddress: any, poolName: any) => {

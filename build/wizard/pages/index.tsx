@@ -2,13 +2,17 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { NewPool } from "../components/NewPool";
 
 const Home: NextPage = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <div>
-      <Modal setOpen={setOpen} open={open} />
+      <Modal setOpen={setOpen} open={open}>
+        <NewPool />
+      </Modal>
+
       <div>My Pools:</div>
       <div className="text-center">
         <svg
