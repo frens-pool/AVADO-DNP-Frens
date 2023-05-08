@@ -4,3 +4,8 @@ releases.json
 build/monitor/node_modules
 build/monitor_
 build/monitor/database.json
+build/gundb/node_modules
+
+build/gundb/package-lock.json
+build/gundb/server.js
+build/wizard/yarn.lock

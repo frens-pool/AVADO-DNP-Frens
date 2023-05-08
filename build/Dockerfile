@@ -34,12 +34,13 @@ RUN apt-get -y clean && apt-get -y update && apt-get -y upgrade && apt-get -y in
     nginx \
     sudo \
     supervisor \
+    yarn \
     vim-tiny \
     && rm -rf /var/lib/apt/lists/*
 RUN useradd -s /bin/false nginx
 
 # copy wizard & monitor
-COPY --from=builder /usr/src/app/wizard/out /usr/local/wizard
+COPY --from=builder /usr/src/app/wizard /usr/local/wizard
 COPY --from=builder /usr/src/monitor/ /usr/local/monitor
 
 RUN mkdir -p /usr/src/app/scripts

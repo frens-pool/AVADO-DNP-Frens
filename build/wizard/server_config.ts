@@ -1,5 +1,10 @@
 const dev = true;
 
-export const server_config = {
-  monitor_url: dev ? "http://localhost:9999" : "https://frens.my.ava.do:9999",
+export const server_config = dev ?
+{
+  monitor_url: "http://localhost:9999",
+  gundb_url: "http://localhost:9998"
+}:{
+  monitor_url: "https://frens.my.ava.do:9999",
+  gundb_url: "http://frens.my.ava.do:9998"
 };
