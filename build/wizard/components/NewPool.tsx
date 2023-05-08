@@ -19,7 +19,7 @@ export const NewPool = () => {
   return (
     <div className="" data-theme="winter">
       <main className="flex flex-col justify-center items-center min-h-[33vh]">
-        <div className="z-20 w-11/12 md:w-2/3 text-center flex flex-col items-center border-2 border-slate-400 rounded-md mb-4 p-3 bg-white">
+        <div className="w-11/12 md:w-2/3 text-center flex flex-col items-center border-2 border-slate-400 rounded-md mb-4 p-3 bg-white">
           <h1 className="text-3xl font-bold">1️⃣ Create Pool</h1>
           <div className={`${step == 1 ? "block" : "hidden"}`}>
             <CreatePool
@@ -29,7 +29,7 @@ export const NewPool = () => {
             />
           </div>
         </div>
-        <div className="z-20 w-11/12 md:w-2/3 text-center flex flex-col items-center border-2 border-slate-400 rounded-md mb-4 p-3 bg-white">
+        <div className="w-11/12 md:w-2/3 text-center flex flex-col items-center border-2 border-slate-400 rounded-md mb-4 p-3 bg-white">
           <h1 className="text-3xl font-bold">2️⃣ Invite Friends</h1>
           <div className={`${step == 2 || step == 3 ? "block" : "hidden"}`}>
             <InviteFrens

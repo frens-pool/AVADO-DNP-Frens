@@ -1,10 +1,14 @@
 import type { NextPage } from "next";
+import { useState } from "react";
+import Modal from "../components/Modal";
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { NewPool } from "../components/NewPool";
 
 const Home: NextPage = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
+      <Modal setOpen={setOpen} open={open} />
       <div>My Pools:</div>
       <div className="text-center">
         <svg
@@ -29,6 +33,7 @@ const Home: NextPage = () => {
         <div className="mt-6">
           <button
             type="button"
+            onClick={() => setOpen(true)}
             className="inline-flex items-center rounded-md bg-frens-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
@@ -36,7 +41,6 @@ const Home: NextPage = () => {
           </button>
         </div>
       </div>
-      <NewPool />
       <div>Public Pools:</div>
     </div>
   );
