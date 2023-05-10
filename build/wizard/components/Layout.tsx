@@ -1,6 +1,5 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import NavBar from "./NavBar";
-import { NewPool } from "../components/NewPool";
 import { Stats } from "./Stats";
 
 interface Props {

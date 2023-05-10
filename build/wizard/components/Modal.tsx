@@ -7,16 +7,16 @@ import {
 
 interface Props {
   children: ReactNode;
-  setOpen: any;
-  open: any;
+  setModal: any;
+  modal: any;
 }
 
-export default function Modal({ children, setOpen, open }: Props) {
+export default function Modal({ children, setModal, modal }: Props) {
   const cancelButtonRef = useRef(null);
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+    <Transition.Root show={modal} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -45,7 +45,7 @@ export default function Modal({ children, setOpen, open }: Props) {
                   <button
                     type="button"
                     className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none "
-                    onClick={() => setOpen(false)}
+                    onClick={() => setModal(false)}
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
