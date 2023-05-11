@@ -10,3 +10,5 @@ build/gundb/package-lock.json
 build/gundb/server.js
 build/wizard/yarn.lock
 build/gundb/radata
+build/wizard/radata
+
