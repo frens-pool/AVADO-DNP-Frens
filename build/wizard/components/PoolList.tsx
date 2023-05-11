@@ -21,7 +21,9 @@ export const PoolList = () => {
     setUserPools(poolsOfUser.data.creates);
   };
 
-  if (userPools) {
+  console.log(userPools.length > 0);
+
+  if (userPools.length > 0) {
     return (
       <div>
         <Modal setModal={setModal} modal={modal}>
