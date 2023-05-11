@@ -2,7 +2,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid";
 
 const stats = [
   {
-    name: "Staked ETH",
+    name: "Pooled ETH",
     stat: "196",
     change: "12%",
     changeType: "increase",
@@ -26,7 +26,7 @@ const stats = [
     changeType: "increase",
   },
   {
-    name: "Pool Shares",
+    name: "NFT Pool Shares",
     stat: "118",
     change: "4.05%",
     changeType: "decrease",
