@@ -1,16 +1,27 @@
 import type { NextPage } from "next";
-import { usePools } from "../hooks/read/usePools";
+import { useState, useEffect } from "react";
+import useGunData from "../hooks/read/useGunData";
 
 const Home: NextPage = () => {
-  const { pools, createPool } = usePools();
+  const [visData, setVisData] = useState(false);
+  const { data, node, addData } = useGunData("pools1");
+
+  // useEffect(()=>{
+  //     console.log(`data client changed!`);
+  // },[data])
+
+  // node?.once((data)=>{
+  //     console.log(`Data chagnedd`,data);
+  //     setVisData(data);
+  // })
 
   return (
     <>
       <div>My Pools:</div>
-      <pre>{JSON.stringify(pools)}</pre>
+      <pre>{JSON.stringify(visData, null, 2)}</pre>
       <button
         onClick={() => {
-          createPool({ name: "sponnet.eth pool" });
+          addData({ name: "sponnet.eth pool" });
         }}
       >
         create pool
