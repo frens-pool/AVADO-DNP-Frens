@@ -40,4 +40,5 @@ export default async function keysplitSSV() {
     encryptedShares,
     payload,
   };
+  //   return { payload: "test" };
 }

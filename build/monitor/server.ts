@@ -82,6 +82,7 @@ const main = async () => {
 
   require("./routes/pool")(server);
   require("./routes/cluster")(server);
+  require("./routes/keysplit")(server);
 
   require("./routes/member")(server);
 
