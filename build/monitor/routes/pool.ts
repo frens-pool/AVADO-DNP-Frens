@@ -1,5 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import { db } from "../db";
+import { gun } from "../db";
 import { v4 as uuidv4 } from 'uuid';
 module.exports = (server: Express) => {
     /**
@@ -31,10 +31,16 @@ module.exports = (server: Express) => {
      *       - Pools
      */
     server.get("/pools", async (req: Request, res: Response, next: NextFunction) => {
+        // console.log(gun);
         // await db.read();
-        const p = await db.get("pools")
-        res.send(p || []);
-        next()
+        // console.log(req);
+        gun.get('pools3').set(123);
+        const pools = gun.get('pools3');
+        pools.once((data:any) => {
+            res.send(data || []);
+            next()
+        });
+
     });
 
     /**
@@ -76,8 +82,16 @@ module.exports = (server: Express) => {
     server.post("/pool", async (req: Request, res: Response, next: NextFunction) => {
         const { poolName, poolAddress } = req.body;
         const poolId = uuidv4();
-        await db.push("pools", { poolName, poolAddress, poolId });
-        res.send({ poolId });
+        console.log(req);
+        // const poolsRef = req.gun.get("pools").set(
+        //     (currentItems = []) => {
+        //         const newItem = { poolName, poolAddress, poolId };
+        //         return [...currentItems, newItem];
+        //     }
+        // );
+
+        // await db.push("pools", { poolName, poolAddress, poolId });
+        // res.send({ poolId });
         next()
     });
 

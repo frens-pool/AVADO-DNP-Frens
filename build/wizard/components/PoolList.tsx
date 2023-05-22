@@ -7,10 +7,20 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import Modal from "../components/Modal";
 import { NewPool } from "../components/NewPool";
 
+import usePool from "../hooks/read/useGun";
+
 export const PoolList = () => {
   const { address } = useAccount();
   const [userPools, setUserPools] = useState<any[]>([]);
   const [modal, setModal] = useState(false);
+  const [pools,setPools] = useState();
+
+  const { poolData } = usePool("1");
+
+  useEffect(() => {
+    console.log("Pooldata", poolData);
+    setPools(poolData);
+  }, [poolData]);
 
   useEffect(() => {
     if (address) fetchUserPools(address);
@@ -24,6 +34,11 @@ export const PoolList = () => {
   if (userPools) {
     return (
       <div>
+{/* 
+        {poolData?.map().on(function (pool: any, id) {
+          return <li key={id}>{pool.date}</li>
+        })} */}
+
         <Modal setModal={setModal} modal={modal}>
           <NewPool />
         </Modal>
