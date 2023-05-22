@@ -12,6 +12,8 @@ import { gun } from "./db";
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import {mkValidatorKeys} from "./util/keygen"
+
 const path = require('path');
 
 const server = express();
@@ -458,6 +460,8 @@ const main = async () => {
         //     console.log("supervisor", value.statename)
         // })
     });
+
+        mkValidatorKeys("mainnet","0xCF4Be57aA078Dc7568C631BE7A73adc1cdA992F8");
 
 }
 main();

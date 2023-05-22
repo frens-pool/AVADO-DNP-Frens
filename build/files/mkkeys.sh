@@ -3,14 +3,21 @@
 set PREFIX [lindex $argv 0]
 set PASSWORD [lindex $argv 1]
 set NUM_VALIDATORS [lindex $argv 2]
+set WITHDRAWAL_ADDRESS [lindex $argv 3]
+set CHAIN [lindex $argv 4]
 set timeout -1
 set mnemonic {}
 
-spawn /usr/bin/deposit new-mnemonic --num_validators $NUM_VALIDATORS --chain mainnet
+spawn /usr/bin/deposit new-mnemonic --eth1_withdrawal_address $WITHDRAWAL_ADDRESS --num_validators $NUM_VALIDATORS --chain $CHAIN
 
 expect "Please choose your language " { send "3\r" }
 
-expect "Please choose your mnemonic language " { send "4\r" }
+expect "Repeat your execution address for confirmation.: " {
+  sleep 1
+  send "$WITHDRAWAL_ADDRESS\r"
+}
+
+expect "Please choose the language of the mnemonic word list" { send "4\r" }
 
 expect "Ethereum validators.: " {
         sleep 1
