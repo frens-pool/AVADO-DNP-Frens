@@ -8,10 +8,11 @@ import { readFileSync } from "fs";
 import AdmZip from 'adm-zip';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-
-import express, {Request,Response,NextFunction} from 'express';
+import { gun } from "./db";
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+const path = require('path');
 
 const server = express();
 
@@ -24,8 +25,13 @@ const corsOptions: cors.CorsOptions = {
 
 server.use(cors(corsOptions));
 server.use(bodyParser.json());
-
-const path = require('path');
+server.use((req, res, next) => {
+    if (req.path === '/gun') {
+        gun.server(req, res, next);
+    } else {
+        next();
+    }
+});
 
 const main = async () => {
     const options = {
@@ -452,6 +458,7 @@ const main = async () => {
         //     console.log("supervisor", value.statename)
         // })
     });
+
 }
 main();
 

@@ -12,3 +12,4 @@ build/wizard/yarn.lock
 build/gundb/radata
 build/wizard/radata
 
+build/monitor/testdb
