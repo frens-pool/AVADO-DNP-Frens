@@ -9,7 +9,6 @@ import { FrensContracts } from "../utils/contracts";
 interface Props {
   setStep: any;
   setPoolContract: any;
-  setTokenCode: any;
 }
 
 type Inputs = {
@@ -17,11 +16,7 @@ type Inputs = {
   commission: string;
 };
 
-export const CreatePool = ({
-  setStep,
-  setPoolContract,
-  setTokenCode,
-}: Props) => {
+export const CreatePool = ({ setStep, setPoolContract }: Props) => {
   const { address: accountAddress } = useAccount();
   const { openConnectModal } = useConnectModal();
 
@@ -126,44 +121,50 @@ export const CreatePool = ({
   }
 
   return (
-    <div>
+    <div className="mt-8">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="relative mt-4">
           <label
-            htmlFor="name"
-            className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            htmlFor="poolName"
+            className="block text-left text-sm font-medium leading-6 text-gray-900"
           >
             Pool Name
           </label>
           <input
-            defaultValue="test"
             {...register("poolName")}
             type="text"
-            name="name"
-            id="name"
+            name="poolName"
+            id="poolName"
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="Vitaliks pool"
           />
         </div>
         <div className="relative mt-4">
           <label
-            htmlFor="name"
-            className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            htmlFor="commission"
+            className="block text-left  text-sm font-medium leading-6 text-gray-900"
           >
             Commission Rate
           </label>
-          <input
-            defaultValue="0"
-            {...register("commission")}
-            type="string"
-            name="name"
-            id="name"
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="0%"
-          />
+
+          <div className="relative mt-0 rounded-md shadow-sm">
+            <input
+              {...register("commission")}
+              type="text"
+              name="commission"
+              id="commission"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              placeholder="0"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <span className="text-gray-500 sm:text-sm" id="price-currency">
+                %
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center justify-center mt-4 mb-2">
+        <div className="flex items-center justify-center mt-8 mb-2">
           <div>
             {isLoading ? (
               <button disabled className="btn text-black">

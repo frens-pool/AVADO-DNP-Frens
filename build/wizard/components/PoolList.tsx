@@ -31,7 +31,7 @@ export const PoolList = () => {
     setUserPools(poolsOfUser.data.creates);
   };
 
-  if (userPools) {
+  if (userPools.length > 0) {
     return (
       <div>
 {/* 

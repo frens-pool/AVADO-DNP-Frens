@@ -36,7 +36,7 @@ const Layout = ({ children }: Props) => {
                     <h2 className="sr-only" id="section-2-title">
                       Section title
                     </h2>
-                    <div className="overflow-hidden rounded-lg bg-white shadow pt-8">
+                    <div className="overflow-hidden rounded-lg bg-white shadow pt-4">
                       <Stats />
                     </div>
                   </section>

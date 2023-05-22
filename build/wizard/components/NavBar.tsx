@@ -15,9 +15,6 @@ const user = {
 };
 const navigation = [
   { name: "My Pools", href: "/", current: true },
-  { name: "Validators", href: "#", current: false },
-  { name: "NFTs", href: "#", current: false },
-  { name: "Frens", href: "#", current: false },
   { name: "Public Pools", href: "/public-pools", current: false },
 ];
 const userNavigation = [
