@@ -21,8 +21,6 @@ export const PoolList = () => {
     setUserPools(poolsOfUser.data.creates);
   };
 
-  console.log(userPools.length > 0);
-
   if (userPools.length > 0) {
     return (
       <div>

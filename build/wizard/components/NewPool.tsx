@@ -6,7 +6,6 @@ import { CreatePool } from "./CreatePool";
 export const NewPool = () => {
   const poolAddress = useRouter().query["pool"];
   const [poolContract, setPoolContract] = useState("");
-  const [tokenCode, setTokenCode] = useState("abcdef");
   const [step, setStep] = useState(1);
 
   useEffect(() => {
@@ -20,18 +19,15 @@ export const NewPool = () => {
     <div className="" data-theme="winter">
       <main className="flex flex-col justify-center items-center min-h-[33vh]">
         <div className="w-11/12 md:w-2/3 text-center flex flex-col items-center mb-4 p-3 bg-white">
-          <h1 className="text-3xl font-bold">Step 1: Create Pool</h1>
           <div className={`${step == 1 ? "block" : "hidden"}`}>
-            <CreatePool
-              setStep={setStep}
-              setPoolContract={setPoolContract}
-              setTokenCode={setTokenCode}
-            />
+            <h1 className="text-3xl font-bold">Create Pool</h1>
+            <div className="">Squad staking made easy</div>
+            <CreatePool setStep={setStep} setPoolContract={setPoolContract} />
           </div>
         </div>
         <div className="w-11/12 md:w-2/3 text-center flex flex-col items-center mb-4 p-3 bg-white">
-          <h1 className="text-3xl font-bold">Step 2: Invite Friends</h1>
-          <div className={`${step == 2 || step == 1 ? "block" : "hidden"}`}>
+          <div className={`${step == 2 ? "block" : "hidden"}`}>
+            <h1 className="text-3xl font-bold">Step 2: Invite Friends</h1>
             <InviteFrens
               poolContract={poolContract}
               setStep={setStep}
