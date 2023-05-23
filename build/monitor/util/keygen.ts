@@ -27,6 +27,7 @@ const pickupValidatorKeys = async () => {
         keystore: await readGlobFile(path.join(cwd, "/validator_keys/keystore*"), true)
     }
     console.log(validatorInfo);
+    return validatorInfo;
 }
 
 const mkValidatorKeys = async (chain = "mainnet", withdrawalAddress: string) => {
