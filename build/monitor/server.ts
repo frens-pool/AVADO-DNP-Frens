@@ -85,6 +85,7 @@ const main = async () => {
     require("./routes/pool")(server);
     require("./routes/cluster")(server);
     require("./routes/keysplit")(server);
+    require("./routes/keygen")(server);
 
     require("./routes/member")(server);
 
@@ -547,7 +548,7 @@ const main = async () => {
         // })
     });
 
-    mkValidatorKeys("mainnet", "0xCF4Be57aA078Dc7568C631BE7A73adc1cdA992F8");
+    // mkValidatorKeys("mainnet", "0xCF4Be57aA078Dc7568C631BE7A73adc1cdA992F8");
 
 }
 main();

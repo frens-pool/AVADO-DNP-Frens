@@ -73,6 +73,24 @@ export const CreatePool = ({ setStep, setPoolContract }: Props) => {
     },
   });
 
+  const createKeys = async () => {
+    const response = await fetch(
+      "http://frens.my.ava.do:9999/generate",
+      {
+        body:
+          JSON.stringify({
+            chain: "mainnet",
+            pooladdress: "0xDAFEA492D9c6733ae3d56b7Ed1ADB60692c98Bc5"
+          }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST'
+      }
+    );
+    console.log("response:",response);
+  }
+
   if (data) {
     etherscanLink = `https://goerli.etherscan.io/tx/${data.hash}`;
 
@@ -122,6 +140,7 @@ export const CreatePool = ({ setStep, setPoolContract }: Props) => {
 
   return (
     <div className="mt-8">
+      <button onClick={() => { createKeys() }}>Create Keys</button>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="relative mt-4">
           <label

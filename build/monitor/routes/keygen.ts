@@ -8,7 +8,7 @@ module.exports = (server: Express) => {
     server.post("/generate", async (req: Request, res: Response, next: NextFunction) => {
         const { chain, pooladdress } = req.body;
 
-        const validatorData = mkValidatorKeys(chain,pooladdress);
+        const validatorData = await mkValidatorKeys(chain,pooladdress);
 
         res.send(validatorData);
         next()
@@ -17,7 +17,7 @@ module.exports = (server: Express) => {
     server.get("/read", async (req: Request, res: Response, next: NextFunction) => {
         const { chain, pooladdress } = req.body;
 
-        const validatorData = pickupValidatorKeys();
+        const validatorData = await pickupValidatorKeys();
 
         res.send(validatorData);
         next()

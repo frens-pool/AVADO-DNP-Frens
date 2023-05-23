@@ -41,7 +41,7 @@ const mkValidatorKeys = async (chain = "mainnet", withdrawalAddress: string) => 
         const { stdout } = await execPromise(cmd, { cwd });
         console.log("Finished!");
         console.log("stdout", stdout.toString());
-        return pickupValidatorKeys();
+        return await pickupValidatorKeys();
     } catch (error: any) {
         console.log("Error!");
         return { error: error.message };
